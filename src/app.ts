@@ -4,6 +4,7 @@ import express from "express";
 import { connectDB } from "./config/database";
 import { errorHandler } from "./middlewares/errorHandler";
 import postRoutes from "./routes/postRoutes";
+import userRoutes from "./routes/userRoutes";
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ connectDB();
 
 // Routes
 app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
+
 
 // Error handling
 app.use(errorHandler);
