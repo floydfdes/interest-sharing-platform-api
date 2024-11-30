@@ -49,11 +49,44 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const getUserProfile = async (req: any, res: Response) => {
     try {
-        const user = await userService.getUserById(req.user!.id);
+        const user = await userService.getUserById(req.user.id);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        res.json(user);
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error", error: err });
+    }
+};
+
+export const updateUserProfile = async (req: any, res: Response) => {
+    try {
+        const updatedUser = await userService.updateUser(req.user.id, req.body);
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json(updatedUser);
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error", error: err });
+    }
+};
+
+export const deleteUserAccount = async (req: any, res: Response) => {
+    try {
+        const deletedUser = await userService.deleteUser(req.user.id);
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(204).send(); // No content
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error", error: err });
+    }
+};
+
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await userService.getAllUsers();
+        res.status(200).json(users);
     } catch (err) {
         res.status(500).json({ message: "Internal server error", error: err });
     }
