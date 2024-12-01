@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     content: { type: String, required: true },
-    imageUrl: { type: String, required: true },
+    imageUrl: { type: String, match: /^data:image\/(png|jpg|jpeg);base64,/ },
     tags: [String],
     featured: { type: Boolean, default: false },
     likes: { type: Number, default: 0 },
