@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { generateToken } from "../utils/jwtHelper";
 
 export const registerUser = async (req: Request, res: Response) => {
     try {
@@ -15,7 +16,9 @@ export const registerUser = async (req: Request, res: Response) => {
         }
 
         const user = await userService.createUser({ username, email, password });
-        res.status(201).json({ message: "User registered successfully", user });
+        const token = generateToken(user.id);
+
+        res.status(201).json({ message: "User registered successfully", token, user });
     } catch (err) {
         res.status(500).json({ message: "Internal server error", error: err });
     }
